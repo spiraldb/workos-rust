@@ -46,6 +46,9 @@ pub struct PasswordlessSession {
     /// The ID of the passwordless session.
     pub id: PasswordlessSessionId,
 
+    /// The link to confirm the passwordless session
+    pub link: String,
+
     /// The type of the passwordless session.
     #[serde(flatten)]
     pub r#type: PasswordlessSessionType,
