@@ -53,7 +53,10 @@ impl SendInvitation for crate::user_management::UserManagement<'_> {
         &self,
         params: &SendInvitationParams<'_>,
     ) -> WorkOsResult<Invitation, SendInvitationError> {
-        let url = self.workos.base_url().join("/user-management/invitations")?;
+        let url = self
+            .workos
+            .base_url()
+            .join("/user_management/invitations")?;
         let invitation = self
             .workos
             .client()
@@ -87,7 +90,7 @@ mod test {
             .unwrap()
             .build();
 
-        let _mock = mock("POST", "/user-management/invitations")
+        let _mock = mock("POST", "/user_management/invitations")
             .match_header("Authorization", "Bearer sk_example_123456789")
             .with_status(201)
             .with_body(

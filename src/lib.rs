@@ -11,8 +11,8 @@ pub mod directory_sync;
 pub mod mfa;
 pub mod organizations;
 pub mod sso;
-pub mod webhooks;
 pub mod user_management;
+pub mod webhooks;
 
 pub use known_or_unknown::*;
 

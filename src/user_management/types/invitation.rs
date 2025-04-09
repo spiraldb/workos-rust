@@ -28,6 +28,7 @@ impl From<&str> for InvitationId {
     }
 }
 
+/// The state of an [`Invitation`].
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum InvitationState {
@@ -50,21 +51,34 @@ pub struct Invitation {
     /// The ID of the invitation.
     pub id: InvitationId,
 
-    /// The name of the organization.
+    /// The email address of the user being invited.
     pub email: String,
 
+    /// The state of the invitation.
     pub state: InvitationState,
+
+    /// The ID of the organization the user is being invited to.
     pub organization_id: OrganizationId,
+
+    /// The ID of the user sending the invitation.
     pub inviter_user_id: UserId,
+
+    /// The token used to accept the invitation.
     pub token: String,
+
+    /// The URL used to accept the invitation.
     pub accept_invitation_url: String,
 
-
+    /// The timestamp when the invitation was accepted.
     pub accepted_at: Option<Timestamp>,
+
+    /// The timestamp when the invitation was revoked.
     pub revoked_at: Option<Timestamp>,
+
+    /// The timestamp when the invitation expires.
     pub expires_at: Timestamp,
 
-    /// The timestamps for the organization.
+    /// The timestamps for the invitation.
     #[serde(flatten)]
     pub timestamps: Timestamps,
 }
