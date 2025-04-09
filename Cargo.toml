@@ -1,14 +1,12 @@
 [package]
 name = "workos"
 version = "0.2.0"
-description = "[Experimental] Official Rust SDK for interacting with the WorkOS API."
-repository = "https://github.com/workos/workos-rust"
-documentation = "https://docs.rs/workos/"
+description = ""
+repository = "https://github.com/delta003/workos-rust"
+documentation = ""
 authors = ["WorkOS"]
 license = "MIT"
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [features]
 default = ["rustls-tls"]
