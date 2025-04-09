@@ -55,7 +55,7 @@ pub trait DeleteDirectory {
 }
 
 #[async_trait]
-impl<'a> DeleteDirectory for DirectorySync<'a> {
+impl DeleteDirectory for DirectorySync<'_> {
     async fn delete_directory(
         &self,
         params: &DeleteDirectoryParams<'_>,
@@ -82,10 +82,9 @@ mod test {
     use mockito::{self, mock};
     use tokio;
 
+    use super::*;
     use crate::directory_sync::DirectoryId;
     use crate::{ApiKey, WorkOs};
-
-    use super::*;
 
     #[tokio::test]
     async fn it_calls_the_delete_directory_endpoint() {

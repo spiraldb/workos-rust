@@ -55,7 +55,7 @@ pub trait DeleteConnection {
 }
 
 #[async_trait]
-impl<'a> DeleteConnection for Sso<'a> {
+impl DeleteConnection for Sso<'_> {
     async fn delete_connection(
         &self,
         params: &DeleteConnectionParams<'_>,
@@ -82,10 +82,9 @@ mod test {
     use mockito::{self, mock};
     use tokio;
 
+    use super::*;
     use crate::sso::ConnectionId;
     use crate::{ApiKey, WorkOs};
-
-    use super::*;
 
     #[tokio::test]
     async fn it_calls_the_delete_connection_endpoint() {

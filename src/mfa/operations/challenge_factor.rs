@@ -75,7 +75,7 @@ pub trait ChallengeFactor {
 }
 
 #[async_trait]
-impl<'a> ChallengeFactor for Mfa<'a> {
+impl ChallengeFactor for Mfa<'_> {
     async fn challenge_factor(
         &self,
         params: &ChallengeFactorParams<'_>,
@@ -106,10 +106,9 @@ mod test {
     use serde_json::json;
     use tokio;
 
+    use super::*;
     use crate::mfa::{AuthenticationChallengeId, AuthenticationFactorId};
     use crate::{ApiKey, WorkOs};
-
-    use super::*;
 
     #[tokio::test]
     async fn it_calls_the_challenge_factor_endpoint() {

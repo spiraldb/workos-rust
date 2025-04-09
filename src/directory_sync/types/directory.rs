@@ -80,11 +80,10 @@ pub struct Directory {
 mod test {
     use serde_json::json;
 
+    use super::{Directory, DirectoryId, DirectoryState};
     use crate::directory_sync::DirectoryType;
     use crate::organizations::OrganizationId;
     use crate::{KnownOrUnknown, Timestamp, Timestamps};
-
-    use super::{Directory, DirectoryId, DirectoryState};
 
     #[test]
     fn it_deserializes_a_directory() {

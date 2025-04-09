@@ -10,12 +10,11 @@ pub struct ConnectionDeletedWebhook(pub Connection);
 mod test {
     use serde_json::json;
 
+    use super::*;
     use crate::organizations::OrganizationId;
     use crate::sso::{ConnectionId, ConnectionState, ConnectionType};
     use crate::webhooks::{Webhook, WebhookEvent, WebhookId};
     use crate::{KnownOrUnknown, Timestamp, Timestamps};
-
-    use super::*;
 
     #[test]
     fn it_deserializes_a_connection_deleted_webhook() {

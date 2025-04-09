@@ -55,7 +55,7 @@ pub trait DeleteOrganization {
 }
 
 #[async_trait]
-impl<'a> DeleteOrganization for Organizations<'a> {
+impl DeleteOrganization for Organizations<'_> {
     async fn delete_organization(
         &self,
         params: &DeleteOrganizationParams<'_>,
@@ -78,12 +78,12 @@ impl<'a> DeleteOrganization for Organizations<'a> {
 
 #[cfg(test)]
 mod test {
+    use matches::assert_matches;
     use mockito::{self, mock};
     use tokio;
 
     use super::*;
     use crate::{ApiKey, WorkOs};
-    use matches::assert_matches;
 
     #[tokio::test]
     async fn it_calls_the_delete_organization_endpoint() {

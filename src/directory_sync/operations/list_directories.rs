@@ -59,7 +59,7 @@ pub trait ListDirectories {
 }
 
 #[async_trait]
-impl<'a> ListDirectories for DirectorySync<'a> {
+impl ListDirectories for DirectorySync<'_> {
     async fn list_directories(
         &self,
         params: &ListDirectoriesParams<'_>,
@@ -87,10 +87,9 @@ mod test {
     use serde_json::json;
     use tokio;
 
+    use super::*;
     use crate::directory_sync::DirectoryId;
     use crate::{ApiKey, WorkOs};
-
-    use super::*;
 
     #[tokio::test]
     async fn it_calls_the_list_directories_endpoint() {

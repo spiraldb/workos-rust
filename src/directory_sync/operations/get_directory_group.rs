@@ -47,7 +47,7 @@ pub trait GetDirectoryGroup {
 }
 
 #[async_trait]
-impl<'a> GetDirectoryGroup for DirectorySync<'a> {
+impl GetDirectoryGroup for DirectorySync<'_> {
     async fn get_directory_group(
         &self,
         id: &DirectoryGroupId,
@@ -78,9 +78,8 @@ mod test {
     use serde_json::json;
     use tokio;
 
-    use crate::{ApiKey, WorkOs};
-
     use super::*;
+    use crate::{ApiKey, WorkOs};
 
     #[tokio::test]
     async fn it_calls_the_get_directory_group_endpoint() {

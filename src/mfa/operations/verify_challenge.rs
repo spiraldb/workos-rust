@@ -67,7 +67,7 @@ pub trait VerifyChallenge {
 }
 
 #[async_trait]
-impl<'a> VerifyChallenge for Mfa<'a> {
+impl VerifyChallenge for Mfa<'_> {
     async fn verify_challenge(
         &self,
         params: &VerifyChallengeParams<'_>,
@@ -98,10 +98,9 @@ mod test {
     use serde_json::json;
     use tokio;
 
+    use super::*;
     use crate::mfa::{AuthenticationChallengeId, MfaCode};
     use crate::{ApiKey, WorkOs};
-
-    use super::*;
 
     #[tokio::test]
     async fn it_calls_the_verify_challenge_endpoint() {

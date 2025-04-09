@@ -45,7 +45,7 @@ pub trait GetConnection {
 }
 
 #[async_trait]
-impl<'a> GetConnection for Sso<'a> {
+impl GetConnection for Sso<'_> {
     async fn get_connection(
         &self,
         id: &ConnectionId,
@@ -76,9 +76,8 @@ mod test {
     use serde_json::json;
     use tokio;
 
-    use crate::{ApiKey, WorkOs};
-
     use super::*;
+    use crate::{ApiKey, WorkOs};
 
     #[tokio::test]
     async fn it_calls_the_get_connection_endpoint() {

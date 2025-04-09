@@ -67,7 +67,7 @@ pub trait ListDirectoryGroups {
 }
 
 #[async_trait]
-impl<'a> ListDirectoryGroups for DirectorySync<'a> {
+impl ListDirectoryGroups for DirectorySync<'_> {
     async fn list_directory_groups(
         &self,
         params: &ListDirectoryGroupsParams<'_>,
@@ -95,10 +95,9 @@ mod test {
     use serde_json::json;
     use tokio;
 
+    use super::*;
     use crate::directory_sync::DirectoryGroupId;
     use crate::{ApiKey, WorkOs};
-
-    use super::*;
 
     #[tokio::test]
     async fn it_calls_the_list_directory_groups_endpoint_with_a_directory_id() {

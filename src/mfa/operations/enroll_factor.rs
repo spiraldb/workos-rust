@@ -122,7 +122,7 @@ pub trait EnrollFactor {
 }
 
 #[async_trait]
-impl<'a> EnrollFactor for Mfa<'a> {
+impl EnrollFactor for Mfa<'_> {
     async fn enroll_factor(
         &self,
         params: &EnrollFactorParams<'_>,
@@ -153,10 +153,9 @@ mod test {
     use serde_json::json;
     use tokio;
 
+    use super::*;
     use crate::mfa::AuthenticationFactorId;
     use crate::{ApiKey, WorkOs};
-
-    use super::*;
 
     #[tokio::test]
     async fn it_calls_the_enroll_factor_endpoint() {

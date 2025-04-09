@@ -74,7 +74,7 @@ pub trait CreateOrganization {
 }
 
 #[async_trait]
-impl<'a> CreateOrganization for Organizations<'a> {
+impl CreateOrganization for Organizations<'_> {
     async fn create_organization(
         &self,
         params: &CreateOrganizationParams<'_>,
@@ -102,10 +102,9 @@ mod test {
     use serde_json::json;
     use tokio;
 
+    use super::*;
     use crate::organizations::OrganizationId;
     use crate::{ApiKey, WorkOs};
-
-    use super::*;
 
     #[tokio::test]
     async fn it_calls_the_create_organization_endpoint() {

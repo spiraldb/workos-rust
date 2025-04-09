@@ -67,11 +67,10 @@ pub struct Connection {
 mod test {
     use serde_json::json;
 
+    use super::{Connection, ConnectionId, ConnectionState};
     use crate::organizations::OrganizationId;
     use crate::sso::ConnectionType;
     use crate::{KnownOrUnknown, Timestamp, Timestamps};
-
-    use super::{Connection, ConnectionId, ConnectionState};
 
     #[test]
     fn it_deserializes_a_connection() {

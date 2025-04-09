@@ -70,9 +70,8 @@ pub enum AuthenticationFactorType {
 mod test {
     use serde_json::json;
 
-    use crate::{Timestamp, Timestamps};
-
     use super::*;
+    use crate::{Timestamp, Timestamps};
 
     #[test]
     fn it_deserializes_a_totp_factor() {

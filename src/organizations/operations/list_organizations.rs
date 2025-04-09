@@ -73,7 +73,7 @@ pub trait ListOrganizations {
 }
 
 #[async_trait]
-impl<'a> ListOrganizations for Organizations<'a> {
+impl ListOrganizations for Organizations<'_> {
     async fn list_organizations(
         &self,
         params: &ListOrganizationsParams<'_>,
@@ -101,10 +101,9 @@ mod test {
     use serde_json::json;
     use tokio;
 
+    use super::*;
     use crate::organizations::OrganizationId;
     use crate::{ApiKey, WorkOs};
-
-    use super::*;
 
     #[tokio::test]
     async fn it_calls_the_list_organizations_endpoint() {

@@ -67,7 +67,7 @@ pub trait ListDirectoryUsers {
 }
 
 #[async_trait]
-impl<'a> ListDirectoryUsers for DirectorySync<'a> {
+impl ListDirectoryUsers for DirectorySync<'_> {
     async fn list_directory_users(
         &self,
         params: &ListDirectoryUsersParams<'_>,
@@ -95,10 +95,9 @@ mod test {
     use serde_json::json;
     use tokio;
 
+    use super::*;
     use crate::directory_sync::DirectoryUserId;
     use crate::{ApiKey, WorkOs};
-
-    use super::*;
 
     #[tokio::test]
     async fn it_calls_the_list_directory_users_endpoint_with_a_directory_id() {

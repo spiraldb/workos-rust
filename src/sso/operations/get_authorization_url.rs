@@ -77,7 +77,7 @@ pub trait GetAuthorizationUrl {
     fn get_authorization_url(&self, params: &GetAuthorizationUrlParams) -> Result<Url, ParseError>;
 }
 
-impl<'a> GetAuthorizationUrl for Sso<'a> {
+impl GetAuthorizationUrl for Sso<'_> {
     fn get_authorization_url(&self, params: &GetAuthorizationUrlParams) -> Result<Url, ParseError> {
         let GetAuthorizationUrlParams {
             connection_selector,
@@ -126,9 +126,8 @@ impl<'a> GetAuthorizationUrl for Sso<'a> {
 
 #[cfg(test)]
 mod test {
-    use crate::{ApiKey, WorkOs};
-
     use super::*;
+    use crate::{ApiKey, WorkOs};
 
     #[test]
     fn it_builds_an_authorization_url_when_given_a_connection_id() {

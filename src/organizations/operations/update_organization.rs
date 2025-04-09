@@ -79,7 +79,7 @@ pub trait UpdateOrganization {
 }
 
 #[async_trait]
-impl<'a> UpdateOrganization for Organizations<'a> {
+impl UpdateOrganization for Organizations<'_> {
     async fn update_organization(
         &self,
         params: &UpdateOrganizationParams<'_>,
@@ -110,10 +110,9 @@ mod test {
     use serde_json::json;
     use tokio;
 
+    use super::*;
     use crate::organizations::OrganizationId;
     use crate::{ApiKey, WorkOs};
-
-    use super::*;
 
     #[tokio::test]
     async fn it_calls_the_update_organization_endpoint() {

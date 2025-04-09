@@ -61,10 +61,9 @@ mod test {
 
     use serde_json::{json, Value};
 
+    use super::{DirectoryGroup, DirectoryGroupId, DirectoryId};
     use crate::organizations::OrganizationId;
     use crate::{RawAttributes, Timestamp, Timestamps};
-
-    use super::{DirectoryGroup, DirectoryGroupId, DirectoryId};
 
     #[test]
     fn it_deserializes_a_directory_group() {

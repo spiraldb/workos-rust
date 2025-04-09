@@ -21,16 +21,14 @@ mod test {
 
     use serde_json::{json, Value};
 
+    use super::*;
     use crate::directory_sync::{
         DirectoryGroup, DirectoryGroupId, DirectoryId, DirectoryUser, DirectoryUserEmail,
         DirectoryUserId, DirectoryUserState,
     };
-
     use crate::organizations::OrganizationId;
     use crate::webhooks::{Webhook, WebhookEvent, WebhookId};
     use crate::{KnownOrUnknown, RawAttributes, Timestamp, Timestamps};
-
-    use super::*;
 
     #[test]
     fn it_deserializes_a_directory_group_user_added_webhook() {

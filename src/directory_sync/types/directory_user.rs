@@ -106,12 +106,11 @@ mod test {
     use serde::Deserialize;
     use serde_json::{json, Value};
 
-    use crate::organizations::OrganizationId;
-    use crate::{KnownOrUnknown, RawAttributes, Timestamp, Timestamps};
-
     use super::{
         DirectoryId, DirectoryUser, DirectoryUserEmail, DirectoryUserId, DirectoryUserState,
     };
+    use crate::organizations::OrganizationId;
+    use crate::{KnownOrUnknown, RawAttributes, Timestamp, Timestamps};
 
     #[test]
     fn it_deserializes_a_directory_user() {

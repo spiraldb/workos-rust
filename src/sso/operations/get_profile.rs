@@ -37,7 +37,7 @@ pub trait GetProfile {
 }
 
 #[async_trait]
-impl<'a> GetProfile for Sso<'a> {
+impl GetProfile for Sso<'_> {
     async fn get_profile(
         &self,
         access_token: &AccessToken,
@@ -64,10 +64,9 @@ mod test {
     use serde_json::json;
     use tokio;
 
+    use super::*;
     use crate::sso::ProfileId;
     use crate::{ApiKey, WorkOs};
-
-    use super::*;
 
     #[tokio::test]
     async fn it_calls_the_get_profile_endpoint() {

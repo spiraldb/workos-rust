@@ -50,9 +50,8 @@ pub struct AuthenticationChallenge {
 mod test {
     use serde_json::json;
 
-    use crate::Timestamps;
-
     use super::*;
+    use crate::Timestamps;
 
     #[test]
     fn it_deserializes_an_authentication_challenge() {

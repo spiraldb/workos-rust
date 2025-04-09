@@ -47,7 +47,7 @@ pub trait GetDirectoryUser {
 }
 
 #[async_trait]
-impl<'a> GetDirectoryUser for DirectorySync<'a> {
+impl GetDirectoryUser for DirectorySync<'_> {
     async fn get_directory_user(
         &self,
         id: &DirectoryUserId,
@@ -78,9 +78,8 @@ mod test {
     use serde_json::json;
     use tokio;
 
-    use crate::{ApiKey, WorkOs};
-
     use super::*;
+    use crate::{ApiKey, WorkOs};
 
     #[tokio::test]
     async fn it_calls_the_get_directory_user_endpoint() {

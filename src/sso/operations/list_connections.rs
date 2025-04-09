@@ -53,7 +53,7 @@ pub trait ListConnections {
 }
 
 #[async_trait]
-impl<'a> ListConnections for Sso<'a> {
+impl ListConnections for Sso<'_> {
     async fn list_connections(
         &self,
         params: &ListConnectionsParams<'_>,
@@ -81,10 +81,9 @@ mod test {
     use serde_json::json;
     use tokio;
 
+    use super::*;
     use crate::sso::ConnectionId;
     use crate::{ApiKey, WorkOs};
-
-    use super::*;
 
     #[tokio::test]
     async fn it_calls_the_list_connections_endpoint() {

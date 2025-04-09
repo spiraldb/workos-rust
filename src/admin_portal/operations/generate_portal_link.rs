@@ -9,12 +9,24 @@ use crate::{ResponseExt, WorkOsResult};
 #[derive(Debug, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub enum AdminPortalIntent {
-    /// The Admin Portal will be used to setup Single Sign-On (SSO).
+    /// Launch Admin Portal for creating SSO connections
     Sso,
 
-    /// The Admin Portal wil be used to setup Directory Sync.
+    /// Launch Admin Portal for creating Directory Sync connections
     #[serde(rename = "dsync")]
     DirectorySync,
+
+    /// The Admin Portal will be used to setup Audit Logs.
+    AuditLogs,
+
+    /// Launch Admin Portal for creating Log Streams
+    LogStreams,
+
+    /// Launch Admin Portal for Domain Verification
+    DomainVerification,
+
+    /// Launch Admin Portal for renewing SAML Certificates
+    CertificateRenewal,
 }
 
 /// The target of the Admin Portal.
@@ -94,7 +106,7 @@ pub trait GeneratePortalLink {
 }
 
 #[async_trait]
-impl<'a> GeneratePortalLink for AdminPortal<'a> {
+impl GeneratePortalLink for AdminPortal<'_> {
     async fn generate_portal_link(
         &self,
         params: &GeneratePortalLinkParams<'_>,
@@ -122,10 +134,9 @@ mod test {
     use serde_json::json;
     use tokio;
 
+    use super::*;
     use crate::organizations::OrganizationId;
     use crate::{ApiKey, WorkOs};
-
-    use super::*;
 
     #[tokio::test]
     async fn it_calls_the_generate_portal_link_endpoint() {

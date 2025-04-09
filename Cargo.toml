@@ -1,7 +1,9 @@
 [package]
 name = "workos"
 version = "0.2.0"
-description = ""
+description = "WorkOS client"
+keywords = ["workos"]
+categories = ["api-bindings"]
 repository = "https://github.com/delta003/workos-rust"
 documentation = ""
 authors = ["WorkOS"]

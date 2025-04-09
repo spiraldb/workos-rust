@@ -4,8 +4,8 @@ use crate::admin_portal::AdminPortal;
 use crate::directory_sync::DirectorySync;
 use crate::mfa::Mfa;
 use crate::organizations::Organizations;
-use crate::passwordless::Passwordless;
 use crate::sso::Sso;
+use crate::user_management::UserManagement;
 use crate::ApiKey;
 
 /// The WorkOS client.
@@ -58,14 +58,14 @@ impl WorkOs {
         Organizations::new(self)
     }
 
-    /// Returns a [`Passwordless`] instance.
-    pub fn passwordless(&self) -> Passwordless {
-        Passwordless::new(self)
-    }
-
     /// Returns an [`Sso`] instance.
     pub fn sso(&self) -> Sso {
         Sso::new(self)
+    }
+
+    /// Returns a [`UserManagement`] instance.
+    pub fn user_management(&self) -> UserManagement {
+        UserManagement::new(self)
     }
 }
 
@@ -85,7 +85,7 @@ impl<'a> WorkOsBuilder<'a> {
     }
 
     /// Sets the base URL of the WorkOS API that the client should point to.
-    pub fn base_url(mut self, base_url: &'a str) -> Result<WorkOsBuilder, ParseError> {
+    pub fn base_url(mut self, base_url: &'a str) -> Result<WorkOsBuilder<'a>, ParseError> {
         self.base_url = Url::parse(base_url)?;
         Ok(self)
     }

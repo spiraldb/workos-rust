@@ -12,13 +12,11 @@ mod test {
 
     use serde_json::{json, Value};
 
+    use super::*;
     use crate::directory_sync::{DirectoryGroupId, DirectoryId};
-
     use crate::organizations::OrganizationId;
     use crate::webhooks::{Webhook, WebhookEvent, WebhookId};
     use crate::{RawAttributes, Timestamp, Timestamps};
-
-    use super::*;
 
     #[test]
     fn it_deserializes_a_directory_group_created_webhook() {
