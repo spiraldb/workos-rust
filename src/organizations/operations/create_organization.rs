@@ -19,7 +19,7 @@ pub struct CreateOrganizationParams<'a> {
     ///
     /// See [here](https://workos.com/docs/sso/guide/frequently-asked-questions#allow-profiles-outside-organization)
     /// for more details.
-    pub allow_profiles_outside_organization: Option<&'a bool>,
+    pub allow_profiles_outside_organization: Option<bool>,
 
     /// The domains of the organization.
     ///
@@ -140,7 +140,7 @@ mod test {
             .organizations()
             .create_organization(&CreateOrganizationParams {
                 name: "Foo Corp",
-                allow_profiles_outside_organization: Some(&false),
+                allow_profiles_outside_organization: Some(false),
                 domains: HashSet::from(["foo-corp.com"]),
             })
             .await
