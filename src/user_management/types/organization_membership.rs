@@ -2,9 +2,9 @@ use std::fmt::Display;
 
 use serde::{Deserialize, Serialize};
 
+use crate::Timestamps;
 use crate::organizations::OrganizationId;
 use crate::user_management::types::user::UserId;
-use crate::Timestamps;
 
 /// The ID of an [`OrganizationMembership`].
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]

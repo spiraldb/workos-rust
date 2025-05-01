@@ -77,7 +77,7 @@ impl ListConnections for Sso<'_> {
 
 #[cfg(test)]
 mod test {
-    use mockito::{self, mock, Matcher};
+    use mockito::{self, Matcher, mock};
     use serde_json::json;
     use tokio;
 
