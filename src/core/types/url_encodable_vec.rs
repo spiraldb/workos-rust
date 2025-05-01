@@ -1,6 +1,6 @@
 use std::fmt::{Display, Write};
 
-use serde::{ser, Serialize, Serializer};
+use serde::{Serialize, Serializer, ser};
 
 /// A [`Vec`] that can be URL-encoded.
 #[derive(Debug)]
@@ -43,7 +43,7 @@ where
 
 #[cfg(test)]
 mod test {
-    use mockito::{self, mock, Matcher};
+    use mockito::{self, Matcher, mock};
     use reqwest::StatusCode;
     use serde::Serialize;
 

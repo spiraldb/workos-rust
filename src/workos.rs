@@ -1,12 +1,12 @@
 use url::{ParseError, Url};
 
+use crate::ApiKey;
 use crate::admin_portal::AdminPortal;
 use crate::directory_sync::DirectorySync;
 use crate::mfa::Mfa;
 use crate::organizations::Organizations;
 use crate::sso::Sso;
 use crate::user_management::UserManagement;
-use crate::ApiKey;
 
 /// The WorkOS client.
 pub struct WorkOs {
