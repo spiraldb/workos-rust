@@ -67,7 +67,7 @@ impl ListOrganizationMemberships for crate::user_management::UserManagement<'_> 
 
 #[cfg(test)]
 mod test {
-    use mockito::{self, Matcher, mock};
+    use mockito::Matcher;
     use serde_json::json;
     use tokio;
 
@@ -76,12 +76,14 @@ mod test {
 
     #[tokio::test]
     async fn it_calls_the_list_organization_memberships_endpoint() {
+        let mut server = mockito::Server::new_async().await;
         let workos = WorkOs::builder(&ApiKey::from("sk_example_123456789"))
-            .base_url(&mockito::server_url())
+            .base_url(&server.url())
             .unwrap()
             .build();
 
-        let _mock = mock("GET", "/user_management/organization_memberships")
+        let _mock = server
+            .mock("GET", "/user_management/organization_memberships")
             .match_query(Matcher::UrlEncoded("order".to_string(), "desc".to_string()))
             .match_header("Authorization", "Bearer sk_example_123456789")
             .with_status(200)
@@ -108,7 +110,8 @@ mod test {
                 })
                 .to_string(),
             )
-            .create();
+            .create_async()
+            .await;
 
         let paginated_list = workos
             .user_management()
