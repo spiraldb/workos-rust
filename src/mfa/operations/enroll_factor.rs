@@ -149,7 +149,7 @@ impl EnrollFactor for Mfa<'_> {
 #[cfg(test)]
 mod test {
     use matches::assert_matches;
-    use mockito::{self, mock};
+
     use serde_json::json;
     use tokio;
 
@@ -159,12 +159,13 @@ mod test {
 
     #[tokio::test]
     async fn it_calls_the_enroll_factor_endpoint() {
+        let mut server = mockito::Server::new_async().await;
         let workos = WorkOs::builder(&ApiKey::from("sk_example_123456789"))
-            .base_url(&mockito::server_url())
+            .base_url(&server.url())
             .unwrap()
             .build();
 
-        let _mock = mock("POST", "/auth/factors/enroll")
+        let _mock = server.mock("POST", "/auth/factors/enroll")
             .match_header("Authorization", "Bearer sk_example_123456789")
             .match_body(r#"{"type":"totp","totp_user":"alan.turing@foo-corp.com","totp_issuer":"Foo Corp"}"#)
             .with_status(201)
@@ -183,7 +184,7 @@ mod test {
                   })
                 .to_string(),
             )
-            .create();
+            .create_async().await;
 
         let factor = workos
             .mfa()
@@ -202,12 +203,14 @@ mod test {
 
     #[tokio::test]
     async fn it_returns_an_error_when_the_phone_number_is_invalid() {
+        let mut server = mockito::Server::new_async().await;
         let workos = WorkOs::builder(&ApiKey::from("sk_example_123456789"))
-            .base_url(&mockito::server_url())
+            .base_url(&server.url())
             .unwrap()
             .build();
 
-        let _mock = mock("POST", "/auth/factors/enroll")
+        let _mock = server
+            .mock("POST", "/auth/factors/enroll")
             .match_header("Authorization", "Bearer sk_example_123456789")
             .match_body(r#"{"type":"sms","phone_number":"73"}"#)
             .with_status(422)
@@ -218,7 +221,8 @@ mod test {
                 })
                 .to_string(),
             )
-            .create();
+            .create_async()
+            .await;
 
         let result = workos
             .mfa()

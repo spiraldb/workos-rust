@@ -10,7 +10,7 @@ pub struct DirectoryUserCreatedWebhook(pub DirectoryUser);
 mod test {
     use std::collections::HashMap;
 
-    use serde_json::{Value, json};
+    use serde_json::{json, Value};
 
     use super::*;
     use crate::directory_sync::{

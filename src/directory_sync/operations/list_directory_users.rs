@@ -91,7 +91,7 @@ impl ListDirectoryUsers for DirectorySync<'_> {
 
 #[cfg(test)]
 mod test {
-    use mockito::{self, Matcher, mock};
+    use mockito::{self, Matcher};
     use serde_json::json;
     use tokio;
 
@@ -101,12 +101,14 @@ mod test {
 
     #[tokio::test]
     async fn it_calls_the_list_directory_users_endpoint_with_a_directory_id() {
+        let mut server = mockito::Server::new_async().await;
         let workos = WorkOs::builder(&ApiKey::from("sk_example_123456789"))
-            .base_url(&mockito::server_url())
+            .base_url(&server.url())
             .unwrap()
             .build();
 
-        let _mock = mock("GET", "/directory_users")
+        let _mock = server
+            .mock("GET", "/directory_users")
             .match_query(Matcher::AllOf(vec![
                 Matcher::UrlEncoded("order".to_string(), "desc".to_string()),
                 Matcher::UrlEncoded(
@@ -192,7 +194,8 @@ mod test {
                 })
                 .to_string(),
             )
-            .create();
+            .create_async()
+            .await;
 
         let paginated_list = workos
             .directory_sync()
@@ -219,12 +222,14 @@ mod test {
 
     #[tokio::test]
     async fn it_calls_the_list_directory_users_endpoint_with_a_directory_group_id() {
+        let mut server = mockito::Server::new_async().await;
         let workos = WorkOs::builder(&ApiKey::from("sk_example_123456789"))
-            .base_url(&mockito::server_url())
+            .base_url(&server.url())
             .unwrap()
             .build();
 
-        let _mock = mock("GET", "/directory_users")
+        let _mock = server
+            .mock("GET", "/directory_users")
             .match_query(Matcher::AllOf(vec![
                 Matcher::UrlEncoded("order".to_string(), "desc".to_string()),
                 Matcher::UrlEncoded(
@@ -310,7 +315,8 @@ mod test {
                 })
                 .to_string(),
             )
-            .create();
+            .create_async()
+            .await;
 
         let paginated_list = workos
             .directory_sync()
