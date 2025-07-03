@@ -61,4 +61,28 @@ pub enum WebhookEvent {
     /// [WorkOS Docs: `dsync.group.user_removed` Webhook](https://workos.com/docs/reference/webhooks/directory-group#webhooks-dsync.group.user_removed)
     #[serde(rename = "dsync.group.user_removed")]
     DirectoryUserRemovedFromGroup(DirectoryUserRemovedFromGroupWebhook),
+
+    /// [WorkOS Docs: `organization.created` Webhook](https://workos.com/docs/events/organization#organization-created)
+    #[serde(rename = "organization.created")]
+    OrganizationCreated(OrganizationCreatedWebhook),
+
+    /// [WorkOS Docs: `organization.updated` Webhook](https://workos.com/docs/events/organization#organization-updated)
+    #[serde(rename = "organization.updated")]
+    OrganizationUpdated(OrganizationUpdatedWebhook),
+
+    /// [WorkOS Docs: `organization.deleted` Webhook](https://workos.com/docs/events/organization#organization-deleted)
+    #[serde(rename = "organization.deleted")]
+    OrganizationDeleted(OrganizationDeletedWebhook),
+
+    /// [WorkOS Docs: `organization_membership.created` Webhook](https://workos.com/docs/events/organization-membership#organization-membership-created)
+    #[serde(rename = "organization_membership.created")]
+    OrganizationMembershipCreated(OrganizationMembershipCreatedWebhook),
+
+    /// [WorkOS Docs: `organization_membership.updated` Webhook](https://workos.com/docs/events/organization-membership#organization-membership-updated)
+    #[serde(rename = "organization_membership.updated")]
+    OrganizationMembershipUpdated(OrganizationMembershipUpdatedWebhook),
+
+    /// [WorkOS Docs: `organization_membership.deleted` Webhook](https://workos.com/docs/events/organization-membership#organization-membership-deleted)
+    #[serde(rename = "organization_membership.deleted")]
+    OrganizationMembershipDeleted(OrganizationMembershipDeletedWebhook),
 }
