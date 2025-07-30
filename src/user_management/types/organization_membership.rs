@@ -37,6 +37,9 @@ pub enum OrganizationMembershipStatus {
 
     /// The membership is inactive.
     Inactive,
+
+    /// The membership is pending.
+    Pending,
 }
 
 /// [WorkOS Docs: Organization Membership](https://workos.com/docs/reference/user-management/organization-membership)
