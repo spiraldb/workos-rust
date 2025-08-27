@@ -35,14 +35,6 @@ pub struct Organization {
     /// The name of the organization.
     pub name: String,
 
-    /// Whether the connections within this organization should allow profiles
-    /// that do not have a domain that is present in the set of the organization's
-    /// user email domains.
-    ///
-    /// See [here](https://workos.com/docs/sso/guide/frequently-asked-questions#allow-profiles-outside-organization)
-    /// for more details.
-    pub allow_profiles_outside_organization: bool,
-
     /// The list of user email domains for the organization.
     pub domains: Vec<OrganizationDomain>,
 
