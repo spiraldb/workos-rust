@@ -13,17 +13,7 @@ pub struct CreateOrganizationParams<'a> {
     /// The name of the organization.
     pub name: &'a str,
 
-    /// Whether the connections within this organization should allow profiles
-    /// that do not have a domain that is present in the set of the organization's
-    /// user email domains.
-    ///
-    /// See [here](https://workos.com/docs/sso/guide/frequently-asked-questions#allow-profiles-outside-organization)
-    /// for more details.
-    pub allow_profiles_outside_organization: Option<bool>,
-
     /// The domains of the organization.
-    ///
-    /// At least one domain is required unless `allow_profiles_outside_organization` is `true`.
     pub domains: HashSet<&'a str>,
 }
 
@@ -60,7 +50,6 @@ pub trait CreateOrganization {
     ///     .organizations()
     ///     .create_organization(&CreateOrganizationParams {
     ///         name: "Foo Corp",
-    ///         allow_profiles_outside_organization: None,
     ///         domains: HashSet::from(["foo-corp.com"]),
     ///     })
     ///     .await?;
@@ -123,7 +112,6 @@ mod test {
                     "id": "org_01EHZNVPK3SFK441A1RGBFSHRT",
                     "object": "organization",
                     "name": "Foo Corp",
-                    "allow_profiles_outside_organization": false,
                     "created_at": "2021-06-25T19:07:33.155Z",
                     "updated_at": "2021-06-25T19:07:33.155Z",
                     "domains": [
@@ -143,7 +131,6 @@ mod test {
             .organizations()
             .create_organization(&CreateOrganizationParams {
                 name: "Foo Corp",
-                allow_profiles_outside_organization: Some(false),
                 domains: HashSet::from(["foo-corp.com"]),
             })
             .await

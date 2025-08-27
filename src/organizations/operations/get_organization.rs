@@ -95,7 +95,6 @@ mod test {
                   "id": "org_01EHZNVPK3SFK441A1RGBFSHRT",
                   "object": "organization",
                   "name": "Foo Corporation",
-                  "allow_profiles_outside_organization": false,
                   "created_at": "2021-06-25T19:07:33.155Z",
                   "updated_at": "2021-06-25T19:07:33.155Z",
                   "domains": [

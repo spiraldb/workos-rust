@@ -25,7 +25,6 @@ mod test {
                 "object": "organization",
                 "id": "org_01EHWNCE74X7JSDV0X3SZ3KJNY",
                 "name": "Foo Corp Updated",
-                "allow_profiles_outside_organization": true,
                 "domains": [
                   {
                     "object": "organization_domain",
@@ -54,7 +53,6 @@ mod test {
                     Organization {
                         id: OrganizationId::from("org_01EHWNCE74X7JSDV0X3SZ3KJNY"),
                         name: "Foo Corp Updated".to_string(),
-                        allow_profiles_outside_organization: true,
                         domains: vec![
                             OrganizationDomain {
                                 id: OrganizationDomainId::from(
