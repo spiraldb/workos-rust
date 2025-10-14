@@ -9,6 +9,7 @@ use crate::user_management::UserManagement;
 use crate::ApiKey;
 
 /// The WorkOS client.
+#[derive(Clone)]
 pub struct WorkOs {
     base_url: Url,
     key: ApiKey,
