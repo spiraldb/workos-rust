@@ -27,6 +27,9 @@ pub enum AdminPortalIntent {
 
     /// Launch Admin Portal for renewing SAML Certificates
     CertificateRenewal,
+
+    /// Launch Admin Portal for managing customer provided keys
+    BringYourOwnKey,
 }
 
 /// The target of the Admin Portal.
