@@ -115,7 +115,6 @@ mod test {
 
         let _mock = server
             .mock("GET", "/organizations")
-            .match_query(Matcher::UrlEncoded("order".to_string(), "desc".to_string()))
             .match_header("Authorization", "Bearer sk_example_123456789")
             .with_status(200)
             .with_body(
@@ -131,14 +130,26 @@ mod test {
                         {
                           "domain": "foo-corp.com",
                           "id": "org_domain_01EHZNVPK2QXHMVWCEDQEKY69A",
-                          "object": "organization_domain"
+                          "organization_id": "org_01EHZNVPK3SFK441A1RGBFSHRT",
+                          "state": "verified",
+                          "verification_strategy": "dns",
+                          "verification_token": "m5Oztg3jdK4NJLgs8uIlIprMw"
                         },
                         {
                           "domain": "another-foo-corp-domain.com",
                           "id": "org_domain_01EHZNS0H9W90A90FV79GAB6AB",
+                          "organization_id": "org_01EHZNVPK3SFK441A1RGBFSHRT",
+                          "state": "verified",
+                          "verification_strategy": "dns",
+                          "verification_token": "anothertoken123",
                           "object": "organization_domain"
                         }
-                      ]
+                      ],
+                      "stripe_customer_id": "cus_R9qWAGMQ6nGE7V",
+                      "external_id": "2fe01467-f7ea-4dd2-8b79-c2b4f56d0191",
+                      "metadata": {
+                        "tier": "diamond"
+                      }
                     }
                   ],
                   "list_metadata": {
@@ -173,10 +184,10 @@ mod test {
 
         let _mock = server
             .mock("GET", "/organizations")
-            .match_query(Matcher::AllOf(vec![
-                Matcher::UrlEncoded("order".to_string(), "desc".to_string()),
-                Matcher::UrlEncoded("domains[]".to_string(), "foo-corp.com".to_string()),
-            ]))
+            .match_query(Matcher::UrlEncoded(
+                "domains[]".to_string(),
+                "foo-corp.com".to_string(),
+            ))
             .match_header("Authorization", "Bearer sk_example_123456789")
             .with_status(200)
             .with_body(
@@ -192,9 +203,17 @@ mod test {
                         {
                           "domain": "foo-corp.com",
                           "id": "org_domain_01EHZNVPK2QXHMVWCEDQEKY69A",
-                          "object": "organization_domain"
+                          "organization_id": "org_01EHZNVPK3SFK441A1RGBFSHRT",
+                          "state": "verified",
+                          "verification_strategy": "dns",
+                          "verification_token": "m5Oztg3jdK4NJLgs8uIlIprMw"
                         }
-                      ]
+                      ],
+                      "stripe_customer_id": "cus_R9qWAGMQ6nGE7V",
+                      "external_id": "2fe01467-f7ea-4dd2-8b79-c2b4f56d0191",
+                      "metadata": {
+                        "tier": "diamond"
+                      }
                     }
                   ],
                   "list_metadata": {

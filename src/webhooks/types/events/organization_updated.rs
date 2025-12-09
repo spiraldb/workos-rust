@@ -11,7 +11,10 @@ mod test {
     use serde_json::json;
 
     use super::*;
-    use crate::organizations::{OrganizationDomain, OrganizationDomainId, OrganizationId};
+    use crate::organizations::{
+        OrganizationDomain, OrganizationDomainId, OrganizationDomainState, OrganizationId,
+        VerificationStrategy,
+    };
     use crate::webhooks::{Webhook, WebhookEvent, WebhookId};
     use crate::{Timestamp, Timestamps};
 
@@ -29,12 +32,20 @@ mod test {
                   {
                     "object": "organization_domain",
                     "id": "org_domain_01EHWNFTAFCF3CQAE5A9Q0P1YB",
-                    "domain": "foo-corp.com"
+                    "organization_id": "org_01EHWNCE74X7JSDV0X3SZ3KJNY",
+                    "domain": "foo-corp.com",
+                    "state": "verified",
+                    "verification_strategy": "dns",
+                    "verification_token": "token123"
                   },
                   {
                     "object": "organization_domain",
                     "id": "org_domain_02EHWNFTAFCF3CQAE5A9Q0P1YC",
-                    "domain": "foo-corp.org"
+                    "organization_id": "org_01EHWNCE74X7JSDV0X3SZ3KJNY",
+                    "domain": "foo-corp.org",
+                    "state": "verified",
+                    "verification_strategy": "dns",
+                    "verification_token": "token456"
                   }
                 ],
                 "created_at": "2021-06-25T19:07:33.155Z",
@@ -58,15 +69,30 @@ mod test {
                                 id: OrganizationDomainId::from(
                                     "org_domain_01EHWNFTAFCF3CQAE5A9Q0P1YB"
                                 ),
-                                domain: "foo-corp.com".to_string()
+                                organization_id: OrganizationId::from(
+                                    "org_01EHWNCE74X7JSDV0X3SZ3KJNY"
+                                ),
+                                domain: "foo-corp.com".to_string(),
+                                state: OrganizationDomainState::Verified,
+                                verification_strategy: VerificationStrategy::Dns,
+                                verification_token: Some("token123".to_string()),
                             },
                             OrganizationDomain {
                                 id: OrganizationDomainId::from(
                                     "org_domain_02EHWNFTAFCF3CQAE5A9Q0P1YC"
                                 ),
-                                domain: "foo-corp.org".to_string()
+                                organization_id: OrganizationId::from(
+                                    "org_01EHWNCE74X7JSDV0X3SZ3KJNY"
+                                ),
+                                domain: "foo-corp.org".to_string(),
+                                state: OrganizationDomainState::Verified,
+                                verification_strategy: VerificationStrategy::Dns,
+                                verification_token: Some("token456".to_string()),
                             }
                         ],
+                        stripe_customer_id: None,
+                        external_id: None,
+                        metadata: None,
                         timestamps: Timestamps {
                             created_at: Timestamp::try_from("2021-06-25T19:07:33.155Z").unwrap(),
                             updated_at: Timestamp::try_from("2021-06-25T19:10:45.200Z").unwrap()

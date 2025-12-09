@@ -1,11 +1,19 @@
-use std::collections::HashSet;
-
 use async_trait::async_trait;
 use serde::Serialize;
 use thiserror::Error;
 
-use crate::organizations::{Organization, Organizations};
+use crate::organizations::{Organization, OrganizationDomainState, Organizations};
 use crate::{ResponseExt, WorkOsError, WorkOsResult};
+
+/// Domain data for creating an organization.
+#[derive(Debug, Clone, Serialize)]
+pub struct DomainData<'a> {
+    /// The domain.
+    pub domain: &'a str,
+
+    /// The state of the domain.
+    pub state: OrganizationDomainState,
+}
 
 /// The parameters for [`CreateOrganization`].
 #[derive(Debug, Serialize)]
@@ -14,7 +22,16 @@ pub struct CreateOrganizationParams<'a> {
     pub name: &'a str,
 
     /// The domains of the organization.
-    pub domains: HashSet<&'a str>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub domain_data: Option<Vec<DomainData<'a>>>,
+
+    /// The external ID of the organization.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub external_id: Option<&'a str>,
+
+    /// Custom metadata for the organization.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub metadata: Option<serde_json::Value>,
 }
 
 /// An error returned from [`CreateOrganization`].
@@ -37,8 +54,6 @@ pub trait CreateOrganization {
     /// # Examples
     ///
     /// ```
-    /// use std::collections::HashSet;
-    ///
     /// # use workos::WorkOsResult;
     /// # use workos::organizations::*;
     /// use workos::{ApiKey, WorkOs};
@@ -50,7 +65,12 @@ pub trait CreateOrganization {
     ///     .organizations()
     ///     .create_organization(&CreateOrganizationParams {
     ///         name: "Foo Corp",
-    ///         domains: HashSet::from(["foo-corp.com"]),
+    ///         domain_data: Some(vec![DomainData {
+    ///             domain: "foo-corp.com",
+    ///             state: OrganizationDomainState::Pending,
+    ///         }]),
+    ///         external_id: Some("2fe01467-f7ea-4dd2-8b79-c2b4f56d0191"),
+    ///         metadata: None,
     ///     })
     ///     .await?;
     /// # Ok(())
@@ -118,9 +138,17 @@ mod test {
                         {
                             "domain": "foo-corp.com",
                             "id": "org_domain_01EHZNVPK2QXHMVWCEDQEKY69A",
+                            "organization_id": "org_01EHZNVPK3SFK441A1RGBFSHRT",
+                            "state": "pending",
+                            "verification_strategy": "dns",
+                            "verification_token": "m5Oztg3jdK4NJLgs8uIlIprMw",
                             "object": "organization_domain"
                         }
-                    ]
+                    ],
+                    "external_id": "2fe01467-f7ea-4dd2-8b79-c2b4f56d0191",
+                    "metadata": {
+                        "tier": "diamond"
+                    }
                 })
                 .to_string(),
             )
@@ -131,7 +159,14 @@ mod test {
             .organizations()
             .create_organization(&CreateOrganizationParams {
                 name: "Foo Corp",
-                domains: HashSet::from(["foo-corp.com"]),
+                domain_data: Some(vec![DomainData {
+                    domain: "foo-corp.com",
+                    state: OrganizationDomainState::Pending,
+                }]),
+                external_id: Some("2fe01467-f7ea-4dd2-8b79-c2b4f56d0191"),
+                metadata: Some(json!({
+                    "tier": "diamond"
+                })),
             })
             .await
             .unwrap();

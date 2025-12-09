@@ -49,10 +49,7 @@ impl GetVaultObject for Vault<'_> {
         &self,
         id: &VaultObjectId,
     ) -> WorkOsResult<VaultObject, GetVaultObjectError> {
-        let url = self
-            .workos
-            .base_url()
-            .join(&format!("/vault/v1/kv/{id}"))?;
+        let url = self.workos.base_url().join(&format!("/vault/v1/kv/{id}"))?;
         let object = self
             .workos
             .client()

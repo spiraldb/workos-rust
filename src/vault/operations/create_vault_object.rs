@@ -143,11 +143,7 @@ mod test {
             key_context,
         };
 
-        let metadata = workos
-            .vault()
-            .create_vault_object(&params)
-            .await
-            .unwrap();
+        let metadata = workos.vault().create_vault_object(&params).await.unwrap();
 
         assert_eq!(
             metadata.id.to_string(),

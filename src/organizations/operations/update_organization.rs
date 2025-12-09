@@ -1,11 +1,19 @@
-use std::collections::HashSet;
-
 use async_trait::async_trait;
 use serde::Serialize;
 use thiserror::Error;
 
-use crate::organizations::{Organization, OrganizationId, Organizations};
+use crate::organizations::{Organization, OrganizationDomainState, OrganizationId, Organizations};
 use crate::{ResponseExt, WorkOsError, WorkOsResult};
+
+/// Domain data for updating an organization.
+#[derive(Debug, Clone, Serialize)]
+pub struct UpdateDomainData<'a> {
+    /// The domain.
+    pub domain: &'a str,
+
+    /// The state of the domain.
+    pub state: OrganizationDomainState,
+}
 
 /// The parameters for [`UpdateOrganization`].
 #[derive(Debug, Serialize)]
@@ -15,10 +23,24 @@ pub struct UpdateOrganizationParams<'a> {
     pub organization_id: &'a OrganizationId,
 
     /// The name of the organization.
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub name: Option<&'a str>,
 
     /// The domains of the organization.
-    pub domains: Option<HashSet<&'a str>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub domain_data: Option<Vec<UpdateDomainData<'a>>>,
+
+    /// The Stripe customer ID associated with the organization.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub stripe_customer_id: Option<&'a str>,
+
+    /// The external ID of the organization.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub external_id: Option<&'a str>,
+
+    /// Custom metadata for the organization.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub metadata: Option<serde_json::Value>,
 }
 
 /// An error returned from [`UpdateOrganization`].
@@ -41,8 +63,6 @@ pub trait UpdateOrganization {
     /// # Examples
     ///
     /// ```
-    /// use std::collections::HashSet;
-    ///
     /// # use workos::WorkOsResult;
     /// # use workos::organizations::*;
     /// use workos::{ApiKey, WorkOs};
@@ -55,7 +75,13 @@ pub trait UpdateOrganization {
     ///     .update_organization(&UpdateOrganizationParams {
     ///         organization_id: &OrganizationId::from("org_01EHZNVPK3SFK441A1RGBFSHRT"),
     ///         name: Some("Foo Corp"),
-    ///         domains: Some(HashSet::from(["foo-corp.com"])),
+    ///         domain_data: Some(vec![UpdateDomainData {
+    ///             domain: "foo-corp.com",
+    ///             state: OrganizationDomainState::Verified,
+    ///         }]),
+    ///         stripe_customer_id: Some("cus_R9qWAGMQ6nGE7V"),
+    ///         external_id: Some("2fe01467-f7ea-4dd2-8b79-c2b4f56d0191"),
+    ///         metadata: None,
     ///     })
     ///     .await?;
     /// # Ok(())
@@ -126,9 +152,18 @@ mod test {
                         {
                             "domain": "foo-corp.com",
                             "id": "org_domain_01EHZNVPK2QXHMVWCEDQEKY69A",
+                            "organization_id": "org_01EHZNVPK3SFK441A1RGBFSHRT",
+                            "state": "verified",
+                            "verification_strategy": "dns",
+                            "verification_token": "m5Oztg3jdK4NJLgs8uIlIprMw",
                             "object": "organization_domain"
                         }
-                    ]
+                    ],
+                    "stripe_customer_id": "cus_R9qWAGMQ6nGE7V",
+                    "external_id": "2fe01467-f7ea-4dd2-8b79-c2b4f56d0191",
+                    "metadata": {
+                        "tier": "diamond"
+                    }
                 })
                 .to_string(),
             )
@@ -140,7 +175,15 @@ mod test {
             .update_organization(&UpdateOrganizationParams {
                 organization_id: &OrganizationId::from("org_01EHZNVPK3SFK441A1RGBFSHRT"),
                 name: Some("Foo Corp"),
-                domains: Some(HashSet::from(["foo-corp.com"])),
+                domain_data: Some(vec![UpdateDomainData {
+                    domain: "foo-corp.com",
+                    state: OrganizationDomainState::Verified,
+                }]),
+                stripe_customer_id: Some("cus_R9qWAGMQ6nGE7V"),
+                external_id: Some("2fe01467-f7ea-4dd2-8b79-c2b4f56d0191"),
+                metadata: Some(json!({
+                    "tier": "diamond"
+                })),
             })
             .await
             .unwrap();
