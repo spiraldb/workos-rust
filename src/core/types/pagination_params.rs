@@ -1,7 +1,7 @@
 use serde::Serialize;
 
 /// The parameters used to control pagination for a given paginated endpoint.
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, Serialize, Default)]
 pub struct PaginationParams<'a> {
     /// Upper limit on the number of objects to return, between 1 and 100. The default value is 10.
     pub limit: Option<u64>,
@@ -24,17 +24,6 @@ pub struct PaginationParams<'a> {
     /// your subsequent call can include before="obj_123" to fetch a new batch of objects
     /// before "obj_123".
     pub before: Option<&'a str>,
-}
-
-impl Default for PaginationParams<'_> {
-    fn default() -> Self {
-        Self {
-            limit: None,
-            order: None,
-            before: None,
-            after: None,
-        }
-    }
 }
 
 /// The order in which records should be returned when paginating.
