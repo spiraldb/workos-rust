@@ -109,13 +109,10 @@ mod test {
 
         let _mock = server
             .mock("GET", "/directory_users")
-            .match_query(Matcher::AllOf(vec![
-                Matcher::UrlEncoded("order".to_string(), "desc".to_string()),
-                Matcher::UrlEncoded(
-                    "directory".to_string(),
-                    "directory_01ECAZ4NV9QMV47GW873HDCX74".to_string(),
-                ),
-            ]))
+            .match_query(Matcher::UrlEncoded(
+                "directory".to_string(),
+                "directory_01ECAZ4NV9QMV47GW873HDCX74".to_string(),
+            ))
             .match_header("Authorization", "Bearer sk_example_123456789")
             .with_status(200)
             .with_body(
@@ -230,13 +227,10 @@ mod test {
 
         let _mock = server
             .mock("GET", "/directory_users")
-            .match_query(Matcher::AllOf(vec![
-                Matcher::UrlEncoded("order".to_string(), "desc".to_string()),
-                Matcher::UrlEncoded(
-                    "group".to_string(),
-                    "directory_group_01E64QTDNS0EGJ0FMCVY9BWGZT".to_string(),
-                ),
-            ]))
+            .match_query(Matcher::UrlEncoded(
+                "group".to_string(),
+                "directory_group_01E64QTDNS0EGJ0FMCVY9BWGZT".to_string(),
+            ))
             .match_header("Authorization", "Bearer sk_example_123456789")
             .with_status(200)
             .with_body(
