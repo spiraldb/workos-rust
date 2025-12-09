@@ -1,26 +1,29 @@
 use serde::Serialize;
 
 /// The parameters used to control pagination for a given paginated endpoint.
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, Serialize, Default)]
 pub struct PaginationParams<'a> {
-    /// The order in which records should be paginated.
-    pub order: &'a PaginationOrder,
+    /// Upper limit on the number of objects to return, between 1 and 100. The default value is 10.
+    pub limit: Option<u64>,
 
-    /// The cursor after which records should be retrived.
+    /// Order the results by the creation time. Supported values are "asc" and "desc" for showing
+    /// older and newer records first respectively. Default order is descending.
+    pub order: Option<&'a PaginationOrder>,
+
+    /// An object ID that defines your place in the list. When the ID is not present,
+    /// you are at the end of the list.
+    ///
+    /// For example, if you make a list request and receive 100 objects, ending with "obj_123",
+    /// your subsequent call can include after="obj_123" to fetch a new batch of objects
+    /// after "obj_123".
     pub after: Option<&'a str>,
 
-    /// The cursor before which records should be retrieved.
+    /// An object ID that defines your place in the list. When the ID is not present, you are at the end of the list.
+    ///
+    /// For example, if you make a list request and receive 100 objects, ending with "obj_123",
+    /// your subsequent call can include before="obj_123" to fetch a new batch of objects
+    /// before "obj_123".
     pub before: Option<&'a str>,
-}
-
-impl Default for PaginationParams<'_> {
-    fn default() -> Self {
-        Self {
-            order: &PaginationOrder::DEFAULT,
-            before: None,
-            after: None,
-        }
-    }
 }
 
 /// The order in which records should be returned when paginating.
@@ -32,11 +35,6 @@ pub enum PaginationOrder {
 
     /// Records are returned in descending order.
     Desc,
-}
-
-impl PaginationOrder {
-    /// The default order to use for pagination.
-    pub(crate) const DEFAULT: PaginationOrder = PaginationOrder::Desc;
 }
 
 #[cfg(test)]

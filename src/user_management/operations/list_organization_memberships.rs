@@ -84,7 +84,10 @@ mod test {
 
         let _mock = server
             .mock("GET", "/user_management/organization_memberships")
-            .match_query(Matcher::UrlEncoded("order".to_string(), "desc".to_string()))
+            .match_query(Matcher::UrlEncoded(
+                "organization_id".to_string(),
+                "org_01EHZNVPK3SFK441A1RGBFSHRT".to_string(),
+            ))
             .match_header("Authorization", "Bearer sk_example_123456789")
             .with_status(200)
             .with_body(
