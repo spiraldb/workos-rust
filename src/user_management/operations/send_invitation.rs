@@ -23,6 +23,9 @@ pub struct SendInvitationParams<'a> {
 
     /// The role slug to assign to the user.
     pub role_slug: Option<&'a str>,
+
+    /// The locale to use for the invitation email.
+    pub locale: Option<&'a str>,
 }
 
 /// An error returned from [`SendInvitation`].
@@ -121,6 +124,7 @@ mod test {
                 expires_in_days: Some(&7),
                 inviter_user_id: None,
                 role_slug: None,
+                locale: None,
             })
             .await
             .unwrap();

@@ -6,6 +6,7 @@ use crate::organizations::OrganizationId;
 use crate::user_management::types::user::UserId;
 use crate::Timestamps;
 
+
 /// The ID of an [`OrganizationMembership`].
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 pub struct OrganizationMembershipId(String);
@@ -40,6 +41,16 @@ pub enum OrganizationMembershipStatus {
 
     /// The membership is pending.
     Pending,
+}
+
+impl Display for OrganizationMembershipStatus {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Active => write!(f, "active"),
+            Self::Inactive => write!(f, "inactive"),
+            Self::Pending => write!(f, "pending"),
+        }
+    }
 }
 
 /// [WorkOS Docs: Organization Membership](https://workos.com/docs/reference/user-management/organization-membership)

@@ -58,10 +58,10 @@ pub struct Invitation {
     pub state: InvitationState,
 
     /// The ID of the organization the user is being invited to.
-    pub organization_id: OrganizationId,
+    pub organization_id: Option<OrganizationId>,
 
     /// The ID of the user sending the invitation.
-    pub inviter_user_id: UserId,
+    pub inviter_user_id: Option<UserId>,
 
     /// The token used to accept the invitation.
     pub token: String,
