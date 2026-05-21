@@ -3,18 +3,41 @@ use serde::Serialize;
 use thiserror::Error;
 
 use crate::organizations::OrganizationId;
-use crate::user_management::types::OrganizationMembership;
-use crate::{PaginatedList, PaginationParams, ResponseExt, WorkOsError, WorkOsResult};
+use crate::user_management::types::{OrganizationMembership, OrganizationMembershipStatus, UserId};
+use crate::{PaginatedList, PaginationParams, ResponseExt, UrlEncodableVec, WorkOsError, WorkOsResult};
 
 /// The parameters for [`ListOrganizationMemberships`].
-#[derive(Debug, Serialize)]
+///
+/// At least one of `organization_id` or `user_id` must be provided.
+#[derive(Debug, Default)]
 pub struct ListOrganizationMembershipsParams<'a> {
     /// The ID of the organization to list memberships for.
-    pub organization_id: &'a OrganizationId,
+    pub organization_id: Option<&'a OrganizationId>,
+
+    /// The ID of the user to list memberships for.
+    pub user_id: Option<&'a UserId>,
+
+    /// Filter by membership status. Defaults to active only when not specified.
+    pub statuses: Option<Vec<OrganizationMembershipStatus>>,
 
     /// The pagination parameters to use when listing organization memberships.
-    #[serde(flatten)]
     pub pagination: PaginationParams<'a>,
+}
+
+/// Internal query struct for serialization.
+#[derive(Debug, Serialize)]
+struct ListOrganizationMembershipsQuery<'a> {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    organization_id: Option<&'a OrganizationId>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    user_id: Option<&'a UserId>,
+
+    #[serde(rename = "statuses[]", skip_serializing_if = "Option::is_none")]
+    statuses: Option<UrlEncodableVec<OrganizationMembershipStatus>>,
+
+    #[serde(flatten)]
+    pagination: PaginationParams<'a>,
 }
 
 /// An error returned from [`ListOrganizationMemberships`].
@@ -49,12 +72,18 @@ impl ListOrganizationMemberships for crate::user_management::UserManagement<'_> 
             .workos
             .base_url()
             .join("/user_management/organization_memberships")?;
+        let query = ListOrganizationMembershipsQuery {
+            organization_id: params.organization_id,
+            user_id: params.user_id,
+            statuses: params.statuses.clone().map(UrlEncodableVec::from),
+            pagination: params.pagination.clone(),
+        };
         let memberships = self
             .workos
             .client()
             .get(url)
             .bearer_auth(self.workos.key())
-            .query(&params)
+            .query(&query)
             .send()
             .await?
             .handle_unauthorized_or_generic_error()?
@@ -119,8 +148,8 @@ mod test {
         let paginated_list = workos
             .user_management()
             .list_organization_memberships(&ListOrganizationMembershipsParams {
-                organization_id: &OrganizationId::from("org_01EHZNVPK3SFK441A1RGBFSHRT"),
-                pagination: Default::default(),
+                organization_id: Some(&OrganizationId::from("org_01EHZNVPK3SFK441A1RGBFSHRT")),
+                ..Default::default()
             })
             .await
             .unwrap();
