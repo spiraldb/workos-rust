@@ -98,7 +98,10 @@ mod test {
             .build();
 
         let _mock = server
-            .mock("PUT", "/user_management/users/user_01EHZNVPK3SFK441A1RGBFSHRT")
+            .mock(
+                "PUT",
+                "/user_management/users/user_01EHZNVPK3SFK441A1RGBFSHRT",
+            )
             .match_header("Authorization", "Bearer sk_example_123456789")
             .with_status(200)
             .with_body(
@@ -134,6 +137,6 @@ mod test {
             .await
             .unwrap();
 
-        assert_eq!(user.last_name, "Smith");
+        assert_eq!(user.last_name.as_deref(), Some("Smith"));
     }
 }

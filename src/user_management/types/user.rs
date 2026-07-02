@@ -36,10 +36,10 @@ pub struct User {
     pub email: String,
 
     /// The first name of the user.
-    pub first_name: String,
+    pub first_name: Option<String>,
 
     /// The last name of the user.
-    pub last_name: String,
+    pub last_name: Option<String>,
 
     /// Whether the user's email has been verified.
     pub email_verified: bool,
@@ -59,4 +59,36 @@ pub struct User {
     /// The timestamps for the user.
     #[serde(flatten)]
     pub timestamps: Timestamps,
+}
+
+#[cfg(test)]
+mod test {
+    use serde_json::json;
+
+    use super::User;
+
+    #[test]
+    fn it_deserializes_a_user_with_null_names() {
+        let user: User = serde_json::from_str(
+            &json!({
+                "object": "user",
+                "id": "user_01EHZNVPK3SFK441A1RGBFSHRT",
+                "email": "user@example.com",
+                "email_verified": true,
+                "first_name": null,
+                "last_name": null,
+                "profile_picture_url": null,
+                "last_sign_in_at": "2021-06-25T19:07:33.155Z",
+                "external_id": null,
+                "metadata": {},
+                "created_at": "2021-06-25T19:07:33.155Z",
+                "updated_at": "2021-06-25T19:07:33.155Z"
+            })
+            .to_string(),
+        )
+        .unwrap();
+
+        assert_eq!(user.first_name, None);
+        assert_eq!(user.last_name, None);
+    }
 }
